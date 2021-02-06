@@ -7,21 +7,13 @@ router.get('/memeroute',(req,res)=>{
 
 router.get('/memes',(req,res)=>{
 
-    Memes.find({})
+    // const page=parseInt(req.query.page)
+    const limit=parseInt(req.query.limit)
+    Memes.paginate({}, { page: 1, limit: limit,sort:{ last_modified: -1 },})
     .then(memes=>{
-        res.send({
-            status:1,
-            message:'Memes fetched',
-            data:memes
-        })
+        res.send(memes)
     })
-    .catch(err=>{
-        console.log(err)
-        res.send({
-            satus:0,
-            message:'Some Error Occurred',
-        })
-    })
+   
 })
 
 router.post('/memes',(req,res)=>{
@@ -33,7 +25,7 @@ router.post('/memes',(req,res)=>{
 
     newMeme.save()
     .then(savedMemes=>{
-        res.satus(200).send({
+        res.status(200).send({
             id:savedMemes._id
         })
     })

@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-
+var mongoosePaginate = require('mongoose-paginate');
 const memeSchema=new mongoose.Schema({
     owner:{
         type:String,
@@ -18,5 +18,6 @@ const memeSchema=new mongoose.Schema({
         default:new Date()
     }
 })
+memeSchema.plugin(mongoosePaginate);
 
 module.exports=mongoose.model("Memes",memeSchema);
