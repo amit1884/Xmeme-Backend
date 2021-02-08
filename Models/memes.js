@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 var mongoosePaginate = require('mongoose-paginate');
 const memeSchema=new mongoose.Schema({
-    owner:{
+    name:{
         type:String,
         required:true
     },
@@ -9,7 +9,7 @@ const memeSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    image:{
+    url:{
         type:String,
         required:true
     },

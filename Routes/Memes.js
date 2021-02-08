@@ -10,7 +10,13 @@ router.get('/memes',(req,res)=>{
     const limit=parseInt(req.query.limit)
     Memes.paginate({}, { page: 1, limit: limit,sort:{ last_modified: -1 },})
     .then(memes=>{
+        if(memes.docs.length>0)
         res.send(memes)
+        else
+        res.send({
+            status:404,
+            data:'Not Found'
+        })
     })
     .catch(err=>{
         console.log(err)
