@@ -33,8 +33,8 @@ const options = {
   };
   
   const swaggerSpecification = swaggerJsDoc(options);
-  app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerSpecification))
-  console.log(swaggerSpecification)
+  app.use('/swagger-ui',swaggerUI.serve,swaggerUI.setup(swaggerSpecification))
+//   console.log(swaggerSpecification)
 
 app.get('/',(req,res)=>{
     res.send('Welcome to Xmeme Api')
@@ -60,13 +60,13 @@ app.get('/',(req,res)=>{
  *         description: Internal Server Error
  */
 
-
+// Route to get top 100 memes (with load more feature) 
 app.get('/memes',(req,res)=>{
 
     const limit=parseInt(req.query.limit)
     Memes.paginate({}, { page: 1, limit: limit,sort:{ last_modified: -1 },})
     .then(memes=>{
-        console.log(memes)
+        // console.log(memes)
         res.status(200).send(memes)
     })
     .catch(err=>{
@@ -143,7 +143,7 @@ app.post('/memes',(req,res)=>{
  *   patch:
  *     description : Update meme
  *     parameters:
- *     - name: ID
+ *     - name: id
  *       description: Meme Id
  *       in: path
  *       required: true
@@ -163,7 +163,6 @@ app.post('/memes',(req,res)=>{
 
 app.patch('/memes/:id',(req,res)=>{
     const id=req.params.id;
-
 
     Memes.findByIdAndUpdate(id,{caption:req.body.caption,url:req.body.image,last_modified:new Date()})
     .then(updatedMeme=>{
