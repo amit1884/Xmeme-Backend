@@ -15,8 +15,8 @@ if(process.env.NODE_ENV==='development')
 DB_URL='mongodb://localhost/Xmeme'
 else if(process.env.NODE_ENV==='production')
 DB_URL=process.env.MONGOURI
-
-mongoose.connect(DB_URL,{useNewUrlParser: true,useUnifiedTopology: true })
+console.log(DB_URL)
+mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology: true })
 .then(()=>{
     console.log('databse connected')
 })
