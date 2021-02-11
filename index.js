@@ -9,14 +9,14 @@ const PORT=process.env.PORT||8081;
 
 const mongoose=require('mongoose')
 
+const environment=process.env.NODE_ENV||'development'
 let DB_URL
 
-if(process.env.NODE_ENV==='development')
+if(environment==='development')
 DB_URL='mongodb://localhost/Xmeme'
-else if(process.env.NODE_ENV==='production')
+else if(environment==='production')
 DB_URL=process.env.MONGOURI
-console.log(DB_URL)
-mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology: true })
+mongoose.connect(DB_URL,{useNewUrlParser: true,useUnifiedTopology: true })
 .then(()=>{
     console.log('databse connected')
 })
