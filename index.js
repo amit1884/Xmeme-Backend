@@ -5,11 +5,18 @@ const swaggerJsDoc=require('swagger-jsdoc')
 const swaggerUI=require('swagger-ui-express')
 require('dotenv').config()
 
-const PORT=process.env.PORT||8080;
+const PORT=process.env.PORT||8081;
 
 const mongoose=require('mongoose')
 
-mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology: true })
+let DB_URL
+
+if(process.env.NODE_ENV==='development')
+DB_URL='mongodb://localhost/Xmeme'
+else if(process.env.NODE_ENV==='production')
+DB_URL=process.env.MONGOURI
+
+mongoose.connect(DB_URL,{useNewUrlParser: true,useUnifiedTopology: true })
 .then(()=>{
     console.log('databse connected')
 })
