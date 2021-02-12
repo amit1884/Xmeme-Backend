@@ -1,21 +1,26 @@
 const express=require('express')
 const cors=require('cors');
+const mongoose=require('mongoose')
 const Memes=require('./Models/memes')
 const swaggerJsDoc=require('swagger-jsdoc')
 const swaggerUI=require('swagger-ui-express')
 require('dotenv').config()
 
+// Setting the port number
 const PORT=process.env.PORT||8081;
 
-const mongoose=require('mongoose')
 
+// Setting the environment
 const environment=process.env.NODE_ENV||'development'
 let DB_URL
 
+// Checking environment for development or production
 if(environment==='development')
 DB_URL='mongodb://localhost/Xmeme'
 else if(environment==='production')
 DB_URL=process.env.MONGOURI
+
+// Database Connection
 mongoose.connect(DB_URL,{useNewUrlParser: true,useUnifiedTopology: true })
 .then(()=>{
     console.log('databse connected')
@@ -28,7 +33,7 @@ const app=express();
 app.use(cors())
 app.use(express.json())
 
-
+// Defining the options for swagger-ui
 const options = {
     swaggerDefinition: {
       info: {
@@ -38,10 +43,9 @@ const options = {
     },
     apis: ['index.js'],
   };
-  
   const swaggerSpecification = swaggerJsDoc(options);
+//   Defining the route for swagger
   app.use('/swagger-ui',swaggerUI.serve,swaggerUI.setup(swaggerSpecification))
-//   console.log(swaggerSpecification)
 
 app.get('/',(req,res)=>{
     res.send('Welcome to Xmeme Api')
@@ -107,11 +111,11 @@ app.get('/memes',(req,res)=>{
 
 // Add the memes
 app.post('/memes',(req,res)=>{
-
+    const date=new Date()
     const {name,caption,url}=req.body;
     console.log(req.body)
     const newMeme=new Memes({
-        name,caption,url
+        name,caption,url,last_modified:date
     })
 
     Memes.find({name:name,caption:caption,url:url})
