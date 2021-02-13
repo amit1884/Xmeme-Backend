@@ -172,10 +172,13 @@ app.post('/memes',(req,res)=>{
 // Update any meme
 
 app.patch('/memes/:id',(req,res)=>{
+    // Param
     const id=req.params.id;
-    console.log(req.body.caption,req.body.url)
+    // Req.body
     const url=req.body.url
     const caption=req.body.caption
+
+    // If both url and caption needs to be updated
     if(url!==undefined&&caption!==undefined)
     {
         Memes.findByIdAndUpdate(id,{caption:caption,url:url,last_modified:new Date()})
@@ -202,6 +205,7 @@ app.patch('/memes/:id',(req,res)=>{
         })
     
     }
+    // If only url is updated
     else if(url!==undefined&&caption===undefined)
     {
         Memes.findByIdAndUpdate(id,{url:url,last_modified:new Date()})
@@ -228,6 +232,7 @@ app.patch('/memes/:id',(req,res)=>{
         })
     
     }
+    // Only caption is updated
     else if(url===undefined&&caption!==undefined)
     {
         Memes.findByIdAndUpdate(id,{caption:caption,last_modified:new Date()})
