@@ -52,7 +52,6 @@ app.get('/',(req,res)=>{
 })
 
 
-
 /**
  * @swagger
  * /memes:
@@ -254,10 +253,7 @@ app.patch('/memes/:id',(req,res)=>{
             })
         })
     }
-   
 })
-
-
 
 // Start the server
 app.listen(PORT,(err)=>{
