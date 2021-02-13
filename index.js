@@ -174,30 +174,87 @@ app.post('/memes',(req,res)=>{
 
 app.patch('/memes/:id',(req,res)=>{
     const id=req.params.id;
-
-    Memes.findByIdAndUpdate(id,{caption:req.body.caption,url:req.body.image,last_modified:new Date()})
-    .then(updatedMeme=>{
-        if(updatedMeme)
-        {
-           res.send({
-               status:204,
-               data:"Updated successfully"
-           })
-        }
-        else
-        res.send({
-            status:404,
-            data:'Not Found'
+    console.log(req.body.caption,req.body.url)
+    const url=req.body.url
+    const caption=req.body.caption
+    if(url!==undefined&&caption!==undefined)
+    {
+        Memes.findByIdAndUpdate(id,{caption:caption,url:url,last_modified:new Date()})
+        .then(updatedMeme=>{
+            if(updatedMeme)
+            {
+               res.send({
+                   status:204,
+                   data:"Updated successfully"
+               })
+            }
+            else
+            res.send({
+                status:404,
+                data:'Not Found'
+            })
         })
-    })
-    .catch(err=>{
-        console.log(err)
-        res.send({
-            status:500,
-            data:'Internal Server Error'
+        .catch(err=>{
+            console.log(err)
+            res.send({
+                status:500,
+                data:'Internal Server Error'
+            })
         })
-    })
-
+    
+    }
+    else if(url!==undefined&&caption===undefined)
+    {
+        Memes.findByIdAndUpdate(id,{url:url,last_modified:new Date()})
+        .then(updatedMeme=>{
+            if(updatedMeme)
+            {
+               res.send({
+                   status:204,
+                   data:"Updated successfully"
+               })
+            }
+            else
+            res.send({
+                status:404,
+                data:'Not Found'
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+            res.send({
+                status:500,
+                data:'Internal Server Error'
+            })
+        })
+    
+    }
+    else if(url===undefined&&caption!==undefined)
+    {
+        Memes.findByIdAndUpdate(id,{caption:caption,last_modified:new Date()})
+        .then(updatedMeme=>{
+            if(updatedMeme)
+            {
+               res.send({
+                   status:204,
+                   data:"Updated successfully"
+               })
+            }
+            else
+            res.send({
+                status:404,
+                data:'Not Found'
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+            res.send({
+                status:500,
+                data:'Internal Server Error'
+            })
+        })
+    }
+   
 })
 
 
